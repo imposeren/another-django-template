@@ -1,0 +1,25 @@
+#
+# Excluded objects
+#
+
+.*
+*~
+*.py[co]
+*.sublime*
+build/
+Vagrantfile
+tests/coverage/modules/*
+Makefile.def
+*.sqlite3
+*.sqlite3-journal
+db_schema.png
+
+
+# local files
+local_settings/ny.py
+varying/
+
+#
+# Included objects
+#
+!.gitignore
