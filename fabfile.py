@@ -35,9 +35,13 @@ from fabric.utils import puts
 
 
 env.use_env_wrapper = strtobool(getattr(env, 'use_env_wrapper', '.no'))
-env.virtual_env_name = getattr(env, 'virtual_env_name', '.env')
 if env.use_env_wrapper:
-    env.virtual_env_name = 'project_name_env'
+    default_env_name = 'project_name_env'
+else:
+    default_env_name = '.env'
+
+
+env.virtual_env_name = getattr(env, 'virtual_env_name', '.env')
 
 env.active_prefixes = ('', '')
 
