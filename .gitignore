@@ -16,7 +16,7 @@ db_schema.png
 
 
 # local files
-local_settings/ny.py
+local_settings/custom.py
 varying/
 
 #

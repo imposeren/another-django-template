@@ -1,0 +1,6 @@
+
+
+test: buildbot_test
+
+buildbot_test:
+	cp local_settings/custom_buildbot.py local_settings/custom.py

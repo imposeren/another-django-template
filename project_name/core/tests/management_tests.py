@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from apps.core.tests.helpers import project_nameTestCase
+from .helpers import project_nameTestCase
 from django.conf import settings
 
 

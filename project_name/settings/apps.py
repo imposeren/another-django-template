@@ -18,7 +18,7 @@ INSTALLED_APPS = (
     # 'easy_thumbnails',
 
     # project
-    'apps.core',
+    'project_name.core',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

@@ -1,0 +1,5 @@
+
+-include Makefile.def
+
+%:
+	fab $@
