@@ -34,6 +34,11 @@ from fabric.api import env,  lcd, local, prefix, settings
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
+__all__ = (
+    'env_name', 'use_env_wrapper', 'autoactivate', 'init_env',
+    'manage', 'test', 'init_project',
+    'syncdb', 'post_init', 'run', 'pip_install', 'update_env'
+)
 
 env.autoactivate = strtobool(getattr(env, 'autoactivate', 'no'))
 env.use_env_wrapper = strtobool(getattr(env, 'use_env_wrapper', 'no'))
@@ -49,20 +54,25 @@ env.active_prefixes = ('true', 'true')
 
 
 def env_name(virtual_env_name):
+    """Set name of virtualenv (default: '.env' or 'project_name_env' if wrapper is used):
+    `fab env_name:.my_env args`"""
     env.virtual_env_name = virtual_env_name
     autoactivate()
 
 
 def use_env_wrapper():
+    """Use virtualenvwrapper (default: no): `fab use_env_wrapper args`"""
     env.use_env_wrapper = True
     autoactivate()
 
 
 def autoactivate():
+    """Autoactivate env for each task (default: no) """
     env.autoactivate = True
 
 
 def init_env():
+    """Init virtualenv and install requirements"""
     if not env.use_env_wrapper:
         with settings(warn_only=True):
             local('rm -rf ./%s' % env.virtual_env_name)
@@ -89,6 +99,7 @@ def activate_virtualenv(force=False):
 
 
 def prefixed(func):
+    """Activate virtualenv for all calls in decorated function"""
     @wraps(func)
     def wrapper(*args, **kwargs):
         activate_virtualenv()
@@ -96,17 +107,21 @@ def prefixed(func):
             func(*args, **kwargs)
     return wrapper
 
+
 @prefixed
 def manage(command):
+    """Run django management commands"""
     local("./manage.py %s" % command)
 
 
 def test():
+    """Run tests"""
     manage("test project_name")
 
 
 @prefixed
 def init_project():
+    """Initialize project for dev environment"""
     with lcd('local_settings'):
         local("cp custom_default.py custom.py")
     if confirm("Please edit local_settings/custom.py. Continue init (you may continue it later)?"):
@@ -115,14 +130,31 @@ def init_project():
         puts("You can continue init with `fab postinit`")
 
 
-def syncdb():
-    manage("syncdb")
+def syncdb(noinput=True, no_initial_data=True):
+    """Run syncdb"""
+    noinput = noinput and '--noinput' or ''
+    no_initial_data = no_initial_data and '--no-initial-data' or ''
+    manage("syncdb %s %s" % (noinput, no_initial_data))
 
 
 def post_init():
+    """Continue init after settings edited"""
     syncdb()
     # add additional post_init actions here
 
 
 def run():
+    """Run devserver"""
     manage("runserver")
+
+
+@prefixed
+def pip_install(package):
+    """install pacakage with pip"""
+    local('pip install %s' % package)
+
+
+@prefixed
+def update_env():
+    """Install requirements into env"""
+    local('pip install -Ur requirements.txt')
