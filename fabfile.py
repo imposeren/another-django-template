@@ -19,6 +19,7 @@ To run other commands with customized env::
 
 You can specify global settings in ~/.fabricrc::
 
+   autoactivate=yes
    use_env_wrapper=yes
    virtual_env_name=myproject_env
 
@@ -95,11 +96,13 @@ def prefixed(func):
             func(*args, **kwargs)
     return wrapper
 
-
 @prefixed
+def manage(command):
+    local("./manage.py %s" % command)
+
+
 def test():
-    activate_virtualenv()
-    local("./manage.py test project_name")
+    manage("test project_name")
 
 
 @prefixed
@@ -111,10 +114,15 @@ def init_project():
     else:
         puts("You can continue init with `fab postinit`")
 
-@prefixed
+
+def syncdb():
+    manage("syncdb")
+
+
 def post_init():
-    local("./manage.py syncdb")
+    syncdb()
+    # add additional post_init actions here
 
 
-def local_fab_settings():
-    puts('use wrapper: %(use_env_wrapper)s\nenv_name: %(virtual_env_name)s' % env)
+def run():
+    manage("runserver")

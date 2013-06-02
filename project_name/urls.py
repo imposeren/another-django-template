@@ -1,17 +1,30 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
+from django.conf import settings
+from django.contrib import admin
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
+import autocomplete_light
+
+
+autocomplete_light.autodiscover()
+
+admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'project_name.views.home', name='home'),
-    # url(r'^project_name/', include('project_name.foo.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    # admin:
+    url(r'^admin/', include(admin.site.urls)),
 
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    # vendor:
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
+
+    # project:
+    url(r'^$', 'project_name.core.views.index', name='index'),
+
 )
+
+
+if 'project_name.example_app' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^example/', include('project_name.example_app.urls')),
+    )

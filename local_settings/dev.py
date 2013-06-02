@@ -11,3 +11,5 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+INSTALLED_APPS = INSTALLED_APPS + ('project_name.example_app', )

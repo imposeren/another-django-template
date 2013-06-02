@@ -10,15 +10,17 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
 
-    # other
+    # vendor
     'south',
     'django_nose',
-    # 'userena',
-    # 'guardian',
-    # 'easy_thumbnails',
+    'compressor',
+    'autocomplete_light',
 
     # project
     'project_name.core',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+
+COMPRESS_ENABLED = False  # Compression is not tested!
