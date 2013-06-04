@@ -23,7 +23,7 @@ To create deault settings for any environment edit some file in this package
 (`project_name.settings`)
 
 To add default settings for dev/prod/staging environments, please edit
-`local_settings/{{ env_name }}.py`
+`local_settings/YOUR_ENV_NAME.py`
 
 """
 
