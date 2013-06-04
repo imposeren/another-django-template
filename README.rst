@@ -18,4 +18,5 @@ Deploy for developers
 
 Short deployment::
 
+   cp fabsettings_default.py fabsettings.py
    fab init_env init_project

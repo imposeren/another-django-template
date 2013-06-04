@@ -25,12 +25,15 @@ You can specify global settings in ~/.fabricrc::
 
 after this you can run fab commands withoud specifying args: `use_env_wrapper` and `env_name`
 
+You can also set settings in fabsettings.py. Check fabsettings_default.py for example.
+
 """
+import os
 
 from distutils.util import strtobool
 from functools import wraps
 
-from fabric.api import env,  lcd, local, prefix, settings
+from fabric.api import env, lcd, local, prefix, settings
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
@@ -48,9 +51,20 @@ else:
     default_env_name = '.env'
 
 
-env.virtual_env_name = getattr(env, 'virtual_env_name', '.env')
+env.virtual_env_name = getattr(env, 'virtual_env_name', default_env_name)
 
 env.active_prefixes = ('true', 'true')
+
+env.bind_port = getattr(env, 'bind_port', '8000')
+
+env.django_settings = getattr(env, 'django_settings', 'local_settings.custom')
+
+try:
+    from fabsettings import *
+except ImportError:
+    pass
+
+os.environ['DJANGO_SETTINGS_MODULE'] = env.django_settings
 
 
 def env_name(virtual_env_name):
@@ -145,7 +159,7 @@ def post_init():
 
 def run():
     """Run devserver"""
-    manage("runserver")
+    manage("runserver 0.0.0.0:%s" % env.bind_port)
 
 
 @prefixed
@@ -158,3 +172,9 @@ def pip_install(package):
 def update_env():
     """Install requirements into env"""
     local('pip install -Ur requirements.txt')
+
+
+def generate_template():
+    """Generate django project template from "project_name"
+
+    """
