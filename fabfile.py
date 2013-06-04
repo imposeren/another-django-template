@@ -33,14 +33,15 @@ import os
 from distutils.util import strtobool
 from functools import wraps
 
-from fabric.api import env, lcd, local, prefix, settings
+from fabric.api import env, lcd, local, prefix, settings, abort
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
 __all__ = (
     'env_name', 'use_env_wrapper', 'autoactivate', 'init_env',
     'manage', 'test', 'init_project',
-    'syncdb', 'post_init', 'run', 'pip_install', 'update_env'
+    'syncdb', 'post_init', 'run', 'pip_install', 'update_env',
+    'generate_template'
 )
 
 env.autoactivate = strtobool(getattr(env, 'autoactivate', 'no'))
@@ -175,6 +176,11 @@ def update_env():
 
 
 def generate_template():
-    """Generate django project template from "project_name"
+    """Generate django project template from "project_name". Warning: original files will be overwritten
 
     """
+    with settings(warn_only=True):
+        result = local('grep -qlR "{{ project_name }}" project_name')
+    if not result.failed:
+        abort('You are trying to generate template from template.')
+    local('find project_name local_settings -iname "*.py" -type f -print0 | xargs -0 sed -i "s/project_name/{{ project_name }}/g"')
