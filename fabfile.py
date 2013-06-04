@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+{# NOTE: this is django template, so all {{ variables }} will be replaced #}
+{# {% templatetag openvarialbe %} {% templatetag closevarialbe %}  can be used to solve this #}
 """
 To init project with virtualenv in project dir (.env)::
 
