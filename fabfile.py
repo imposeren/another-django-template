@@ -6,15 +6,15 @@ To init project with virtualenv in project dir (.env)::
 
 To init project with env that uses virtualenvwrapper::
 
-    fab use_env_wrapper env_name:project_name_env init_env init_project
+    fab use_env_wrapper env_name:{{ project_name }}_env init_env init_project
 
 To run other commands with customized env::
 
-    fab use_env_wrapper env_name:project_name_env {{ command }}
+    fab use_env_wrapper env_name:{{ project_name }}_env COMMAND
     # or
-    fab env_name:my_env_dir {{ command }}
+    fab env_name:my_env_dir COMMAND
     # or with default env in ./.env/
-    fab autoactivate {{ command }}
+    fab autoactivate COMMAND
 
 
 You can specify global settings in ~/.fabricrc::
@@ -47,7 +47,7 @@ __all__ = (
 env.autoactivate = strtobool(getattr(env, 'autoactivate', 'no'))
 env.use_env_wrapper = strtobool(getattr(env, 'use_env_wrapper', 'no'))
 if env.use_env_wrapper:
-    default_env_name = 'project_name_env'
+    default_env_name = '{{ project_name }}_env'
 else:
     default_env_name = '.env'
 
@@ -69,7 +69,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = env.django_settings
 
 
 def env_name(virtual_env_name):
-    """Set name of virtualenv (default: '.env' or 'project_name_env' if wrapper is used):
+    """Set name of virtualenv (default: '.env' or '{{ project_name }}_env' if wrapper is used):
     `fab env_name:.my_env args`"""
     env.virtual_env_name = virtual_env_name
     autoactivate()
@@ -131,7 +131,7 @@ def manage(command):
 
 def test():
     """Run tests"""
-    manage("test project_name")
+    manage("test {{ project_name }}")
 
 
 @prefixed
@@ -175,14 +175,23 @@ def update_env():
     local('pip install -Ur requirements.txt')
 
 
-def generate_template():
+def generate_template(project_name='{{ project_name }}'):
     """Generate django project template from "project_name". Warning: original files will be overwritten.
     How it works now:
         all "project_name" strings in *.py files are replaced with "{{ project_name }}"
 
     """
+    data = {'project_name': project_name}
     with settings(warn_only=True):
-        result = local('grep -qlR "{{ project_name }}" project_name local_settings')
+        result = local('grep -qlR "{% templatetag openvariable %} project_name {% templatetag closevariable %}" %(project_name)s local_settings' % data)
     if not result.failed:
-        abort('You are trying to generate template from template. You an startproject from this template and then call this command')
-    local('find project_name local_settings -iname "*.py" -type f -print0 | xargs -0 sed -i "s/project_name/{{ project_name }}/g"')
+        abort('You are trying to generate template from template. '
+              'You an startproject from this template and then call this command')
+
+    local('find %(project_name)s local_settings -iname "*.py" -type f -print0 | xargs -0 sed -i "s/%(project_name)s/{% templatetag openvariable %} project_name {% templatetag closevariable %}/g"' % data)
+    if project_name != 'project_name':
+        local('mv %(project_name)s project_name' % data)
+
+    puts('*.py files in %(project_name)s and local_settings directories are '
+         'ready to be uses as template. but fabfile.py is not processed. You '
+         'should use fabfile.py from original template')

@@ -28,3 +28,12 @@ If you do not have fabric::
    pip install -r requirements.txt
    cp fabsettings_default.py fabsettings.py
    fab init_project
+
+
+Turn project to template
+========================
+
+You can create project from this template, modify and turn it back to template!
+To do this you can run fabric command ``generate_template``::
+
+   fab generate_template
