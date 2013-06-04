@@ -20,3 +20,11 @@ Short deployment::
 
    cp fabsettings_default.py fabsettings.py
    fab init_env init_project
+
+If you do not have fabric::
+
+   virtualenv .env
+   source .env/bin/activate
+   pip install -r requirements.txt
+   cp fabsettings_default.py fabsettings.py
+   fab init_project
