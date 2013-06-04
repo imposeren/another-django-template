@@ -2,5 +2,5 @@
 from django_nose import FastFixtureTestCase
 
 
-class project_nameTestCase(FastFixtureTestCase):
+class {{ project_name }}TestCase(FastFixtureTestCase):
     pass

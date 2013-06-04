@@ -17,7 +17,7 @@ INSTALLED_APPS = (
     'autocomplete_light',
 
     # project
-    'project_name.core',
+    '{{ project_name }}.core',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

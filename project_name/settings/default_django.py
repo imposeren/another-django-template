@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Default django settings
-from project_name.utils import path_in_project
+from {{ project_name }}.utils import path_in_project
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -43,7 +43,7 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    path_in_project('project_name', 'static'),
+    path_in_project('{{ project_name }}', 'static'),
 )
 
 STATICFILES_FINDERS = (
@@ -69,12 +69,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'project_name.urls'
+ROOT_URLCONF = '{{ project_name }}.urls'
 
-WSGI_APPLICATION = 'project_name.wsgi.application'
+WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 TEMPLATE_DIRS = (
-    path_in_project('project_name', 'templates'),
+    path_in_project('{{ project_name }}', 'templates'),
 )
 
 LOGGING = {
@@ -110,5 +110,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
-    "project_name.core.context_processors.settings",
+    "{{ project_name }}.core.context_processors.settings",
 )

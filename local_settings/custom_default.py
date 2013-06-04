@@ -9,7 +9,7 @@ for staging environment::
 
 """
 from .dev import *
-from project_name.utils import path_in_project
+from {{ project_name }}.utils import path_in_project
 
 
 # DATABASES = {

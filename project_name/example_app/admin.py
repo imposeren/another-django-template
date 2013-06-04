@@ -5,7 +5,7 @@ from django.contrib import admin
 import autocomplete_light
 
 # project
-from project_name.example_app import models
+from {{ project_name }}.example_app import models
 
 
 class AdminAutocompleteDemoAdmin(admin.ModelAdmin):

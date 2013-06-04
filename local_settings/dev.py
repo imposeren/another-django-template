@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from project_name.settings import *
+from {{ project_name }}.settings import *
 
 DATABASES = {
     'default': {
@@ -12,4 +12,4 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS = INSTALLED_APPS + ('project_name.example_app', )
+INSTALLED_APPS = INSTALLED_APPS + ('{{ project_name }}.example_app', )

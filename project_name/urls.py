@@ -19,12 +19,12 @@ urlpatterns = patterns('',
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 
     # project:
-    url(r'^$', 'project_name.core.views.index', name='index'),
+    url(r'^$', '{{ project_name }}.core.views.index', name='index'),
 
 )
 
 
-if 'project_name.example_app' in settings.INSTALLED_APPS:
+if '{{ project_name }}.example_app' in settings.INSTALLED_APPS:
     urlpatterns += patterns('',
-        url(r'^example/', include('project_name.example_app.urls')),
+        url(r'^example/', include('{{ project_name }}.example_app.urls')),
     )

@@ -2,6 +2,6 @@
 from django.conf.urls import patterns, include, url
 
 
-urlpatterns = patterns('project_name.example_app',
+urlpatterns = patterns('{{ project_name }}.example_app',
 
 )

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Django settings for project_name project.
+"""Django settings for {{ project_name }} project.
 this settings are stored in repository so please do not add settings for
 *local* env to files in this package. To create local settings:
 
 1. create some file `mysettings.py` and import this package::
 
-      from project_name.settings import *
+      from {{ project_name }}.settings import *
 
 2. override whatever settings you want
 
@@ -20,7 +20,7 @@ You can use example settings from `local_settings` folder::
 
 
 To create deault settings for any environment edit some file in this package
-(`project_name.settings`)
+(`{{ project_name }}.settings`)
 
 To add default settings for dev/prod/staging environments, please edit
 `local_settings/YOUR_ENV_NAME.py`

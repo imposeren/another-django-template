@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from project_name.settings import *
+from {{ project_name }}.settings import *
 
 DATABASES = {
     'default': {
