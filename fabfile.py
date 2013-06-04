@@ -180,7 +180,7 @@ def generate_template():
 
     """
     with settings(warn_only=True):
-        result = local('grep -qlR "{{ project_name }}" project_name')
+        result = local('grep -qlR "{{ project_name }}" project_name local_settings')
     if not result.failed:
         abort('You are trying to generate template from template.')
     local('find project_name local_settings -iname "*.py" -type f -print0 | xargs -0 sed -i "s/project_name/{{ project_name }}/g"')
