@@ -176,11 +176,13 @@ def update_env():
 
 
 def generate_template():
-    """Generate django project template from "project_name". Warning: original files will be overwritten
+    """Generate django project template from "project_name". Warning: original files will be overwritten.
+    How it works now:
+        all "project_name" strings in *.py files are replaced with "{{ project_name }}"
 
     """
     with settings(warn_only=True):
         result = local('grep -qlR "{{ project_name }}" project_name local_settings')
     if not result.failed:
-        abort('You are trying to generate template from template.')
+        abort('You are trying to generate template from template. You an startproject from this template and then call this command')
     local('find project_name local_settings -iname "*.py" -type f -print0 | xargs -0 sed -i "s/project_name/{{ project_name }}/g"')
