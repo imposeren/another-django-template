@@ -36,6 +36,7 @@ from distutils.util import strtobool
 from functools import wraps
 
 from fabric.api import env, lcd, local, prefix, settings, abort
+from fabric.context_managers import hide
 from fabric.contrib.console import confirm
 from fabric.utils import puts
 
@@ -184,7 +185,7 @@ def generate_template(project_name='{{ project_name }}'):
 
     """
     data = {'project_name': project_name}
-    with settings(warn_only=True):
+    with settings(warn_only=True), hide('warnings'):
         result = local('grep -qlR "{% templatetag openvariable %} project_name {% templatetag closevariable %}" %(project_name)s local_settings' % data)
     if not result.failed:
         abort('You are trying to generate template from template. '
@@ -195,5 +196,5 @@ def generate_template(project_name='{{ project_name }}'):
         local('mv %(project_name)s project_name' % data)
 
     puts('*.py files in %(project_name)s and local_settings directories are '
-         'ready to be uses as template. but fabfile.py is not processed. You '
-         'should use fabfile.py from original template')
+         'ready to be used in template project. But fabfile.py is not processed.'
+         ' You should use fabfile.py from original template')
