@@ -18,7 +18,7 @@ Creating project from template
 
 Run::
 
-   django-admin.py startproject --template=https://github.com/imposeren/another-django-template.git NEW_PROJECT_NAME
+   django-admin.py startproject --template=https://github.com/imposeren/another-django-template/zipball/master NEW_PROJECT_NAME
 
 Deploy for developers
 =====================
