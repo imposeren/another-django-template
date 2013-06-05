@@ -13,6 +13,13 @@ Requirements
 * libsqlite3 with development headers;
 * libjpeg with development headers;
 
+Creating project from template
+==============================
+
+Run::
+
+   django-admin.py startproject --template=https://github.com/imposeren/another-django-template.git NEW_PROJECT_NAME
+
 Deploy for developers
 =====================
 
