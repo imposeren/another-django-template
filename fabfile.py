@@ -137,7 +137,6 @@ def test():
     manage("test {{ project_name }}")
 
 
-@prefixed
 def init_project():
     """Initialize project for dev environment"""
     with lcd('local_settings'):
