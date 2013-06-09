@@ -61,11 +61,11 @@
     <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
 {% endspaceless %}
         {% block navbar_wrapper %}
-            {% include "navbar.html" %}
+            {% include "_navbar.html" %}
         {% endblock %}
         {% block content_wrapper %}
             <div class="container">
-                {% include "messages.html" %}
+                {% include "_messages.html" %}
                 {% block content %}{% spaceless %}
                     <!-- Main hero unit for a primary marketing message or call to action -->
                     <div class="hero-unit">
@@ -109,7 +109,7 @@
 
             <script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
             {% include 'autocomplete_light/static.html' %}
-            {# Do not use nested block here. If you want to extend this scripts in extended templates: use block.super #}
+            {# Do not use nested block here if you would like to have compression in it. If you want to extend this scripts in extended templates: use block.super #}
         {% endblock tail_vendor_js %}
 
         {% block tail_project_js %}
