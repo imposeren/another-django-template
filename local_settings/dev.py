@@ -12,4 +12,24 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS = INSTALLED_APPS + ('{{ project_name }}.example_app', )
+
+# debug toolbar
+INSTALLED_APPS += (
+    'debug_toolbar',
+    '{{ project_name }}.example_app',
+)
+
+
+MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+) + MIDDLEWARE_CLASSES
+
+INTERNAL_IPS = ('127.0.0.1',)
+
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+    'SHOW_TOOLBAR_CALLBACK': None,
+    'EXTRA_SIGNALS': [],
+    'HIDE_DJANGO_SQL': True,
+    'ENABLE_STACKTRACES' : True,
+}

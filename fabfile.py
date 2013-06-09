@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-{# NOTE: this is django template, so all {{ variables }} will be replaced #}
-{# {% templatetag openvarialbe %} {% templatetag closevarialbe %}  can be used to solve this #}
+#{# NOTE: this is django template, so all {{ variables }} will be replaced #}
+#{# {% templatetag openvarialbe %} {% templatetag closevarialbe %}  can be used to solve this #}
 """
 To init project with virtualenv in project dir (.env)::
 
@@ -89,7 +89,7 @@ def autoactivate():
     env.autoactivate = True
 
 
-def init_env():
+def init_env(requirements='postgre'):
     """Init virtualenv and install requirements"""
     if not env.use_env_wrapper:
         with settings(warn_only=True):
@@ -101,7 +101,7 @@ def init_env():
                 local('rmvirtualenv %s' % env.virtual_env_name)
             local('mkvirtualenv %s' % env.virtual_env_name)
     activate_virtualenv(True)
-    prefixed(local)('pip install -r requirements.txt')
+    prefixed(local)('pip install -r requirements/{0}.txt'.format(requirements))
 
 
 def _activate_virtualenv():
