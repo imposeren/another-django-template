@@ -41,7 +41,7 @@ from fabric.contrib.console import confirm
 from fabric.utils import puts
 
 __all__ = (
-    'env_name', 'use_env_wrapper', 'autoactivate', 'init_env',
+    'env_name', 'use_env_wrapper', 'autoactivate', 'noautoactivate', 'init_env',
     'manage', 'test', 'init_project',
     'syncdb', 'post_init', 'run', 'pip_install', 'update_env',
     'generate_template'
@@ -87,6 +87,10 @@ def use_env_wrapper():
 def autoactivate():
     """Autoactivate env for each task (default: no) """
     env.autoactivate = True
+
+
+def noautoactivate():
+    env.autoactivate = False
 
 
 def init_env(requirements='postgre'):

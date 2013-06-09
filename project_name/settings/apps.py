@@ -20,7 +20,13 @@ INSTALLED_APPS = (
     '{{ project_name }}.core',
 )
 
+
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package={{ project_name }}',
+]
 
 
 COMPRESS_ENABLED = False  # Compression is not tested!
