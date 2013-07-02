@@ -44,7 +44,8 @@ __all__ = (
     'env_name', 'use_env_wrapper', 'autoactivate', 'noautoactivate', 'init_env',
     'manage', 'test', 'init_project',
     'syncdb', 'post_init', 'run', 'pip_install', 'update_env',
-    'generate_template'
+    'install_reqs', 'migrate', 'schemamigration',
+    'generate_template',
 )
 
 env.autoactivate = strtobool(getattr(env, 'autoactivate', 'no'))
@@ -93,14 +94,14 @@ def noautoactivate():
     env.autoactivate = False
 
 
-def init_env(requirements='postgre'):
+def init_env(requirements='dev'):
     """Init virtualenv and install requirements"""
     if not env.use_env_wrapper:
         with settings(warn_only=True):
             local('rm -rf ./%s' % env.virtual_env_name)
         local('virtualenv %s' % env.virtual_env_name)
     else:
-        with prefix('source `which virtualenvwrapper.sh`'):
+        with prefix('. `which virtualenvwrapper.sh`'):
             with settings(warn_only=True):
                 local('rmvirtualenv %s' % env.virtual_env_name)
             local('mkvirtualenv %s' % env.virtual_env_name)
@@ -110,9 +111,9 @@ def init_env(requirements='postgre'):
 
 def _activate_virtualenv():
     if not env.use_env_wrapper:
-        env.active_prefixes = ('source %s/bin/activate' % env.virtual_env_name, 'true')
+        env.active_prefixes = ('. %s/bin/activate' % env.virtual_env_name, 'true')
     else:
-        env.active_prefixes = ('source `which virtualenvwrapper.sh`', 'workon %s' % env.virtual_env_name)
+        env.active_prefixes = ('. `which virtualenvwrapper.sh`', 'workon %s' % env.virtual_env_name)
 
 
 def activate_virtualenv(force=False):
@@ -151,6 +152,21 @@ def init_project():
         puts("You can continue init with `fab postinit`")
 
 
+def migrate(param='--no-initial-data'):
+    """Update the database"""
+    manage("migrate %s" % param)
+
+
+def schemamigration(app_name=''):
+    """Update the database"""
+    print green("Migrate apps")
+    print "Use migrate:'app_name' to create migration."
+    if param:
+        manage("schemamigration %s --init" % param)
+
+    manage("migrate --no-initial-data")
+
+
 def syncdb(noinput=True, no_initial_data=True):
     """Run syncdb"""
     noinput = noinput and '--noinput' or ''
@@ -161,6 +177,7 @@ def syncdb(noinput=True, no_initial_data=True):
 def post_init():
     """Continue init after settings edited"""
     syncdb()
+    migrate(param='')
     # add additional post_init actions here
 
 
@@ -179,6 +196,10 @@ def pip_install(package):
 def update_env():
     """Install requirements into env"""
     local('pip install -Ur requirements.txt')
+
+
+def install_reqs(environ='dev'):
+    pip_install('-r requirements/%s.txt' % environ)
 
 
 def generate_template(project_name='{{ project_name }}'):
