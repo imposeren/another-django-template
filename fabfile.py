@@ -138,7 +138,9 @@ def manage(command):
 
 
 def test():
-    """Run tests"""
+    """Run tests. By default tests are run with coverage and it is saved as html
+    in ``varying/coverage/index.html``
+    """
     manage("test {{ project_name }}")
 
 

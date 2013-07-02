@@ -31,7 +31,7 @@ NOSE_ARGS = [
     '--cover-package={{ project_name }}',
     '--with-progressive',
     '--cover-html',
-    '--cover-html-dir=%s' % path_in_project('varying/coverage/'),
+    '--cover-html-dir="%s"' % path_in_project('varying/coverage/'),
 ]
 
 
