@@ -1,5 +1,8 @@
 # Put apps and their settings here
 
+from {{ project_name }}.utils import path_in_project
+
+
 INSTALLED_APPS = (
     # django
     'django.contrib.auth',
@@ -27,6 +30,8 @@ NOSE_ARGS = [
     '--with-coverage',
     '--cover-package={{ project_name }}',
     '--with-progressive',
+    '--cover-html',
+    '--cover-html-dir=%s' % path_in_project('varying/coverage/'),
 ]
 
 
